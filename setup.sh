@@ -18,12 +18,15 @@ os_check (){
     fi
 }
 #############################################
+#Checks made for debian based Linux systems
 debain_check () {
+    echo $waterMarkOS
+    echo "Debian"
     zsh_check_debain
     check=$?
-    echo $check
     if [[ $check == 0 ]];then
-        echo "ZSH is installed"
+        echo "--------------------"
+        echo "| ZSH is installed |"
     else
         zsh_check_debain
         wait
@@ -31,9 +34,9 @@ debain_check () {
 
     oh_my_zsh_check
     check=$?
-    echo $check
     if [[ $check == 0 ]];then
-        echo "Oh-my-zsh is installed"
+        echo "--------------------------"
+        echo "| Oh-my-zsh is installed |"
     else
         oh_my_zsh_install
         wait
@@ -41,9 +44,10 @@ debain_check () {
 
     pl10k_check
     check=$?
-    echo $check
     if [[ $check == 0 ]];then
-        echo "Powerlevel10k is installed"
+        echo "------------------------------"
+        echo "| Powerlevel10k is installed |"
+        echo "------------------------------"
     else
         pl10k_install
         wait
@@ -51,13 +55,14 @@ debain_check () {
 
 }
 #############################################
+#Checks made for arch based linux systems
 arch_check () {
-    
+    echo $waterMarkOS
     zsh_check_arch
     check=$?
-    echo $check
     if [[ $check == 0 ]];then
-        echo "ZSH is installed"
+        echo "--------------------"
+        echo "| ZSH is installed |"
     else
         zsh_check_arch
         wait
@@ -65,9 +70,9 @@ arch_check () {
 
     oh_my_zsh_check
     check=$?
-    echo $check
     if [[ $check == 0 ]];then
-        echo "Oh-my-zsh is installed"
+        echo "--------------------------"
+        echo "| Oh-my-zsh is installed |"
     else
         oh_my_zsh_install
         wait
@@ -75,9 +80,10 @@ arch_check () {
 
     pl10k_check
     check=$?
-    echo $check
     if [[ $check == 0 ]];then
-        echo "Powerlevel10k is installed"
+        echo "------------------------------"
+        echo "| Powerlevel10k is installed |"
+        echo "------------------------------"
     else
         pl10k_install
         wait
@@ -103,7 +109,7 @@ git_create () {
 zsh_check_arch () {
     ZSHCHECK=`pacman -Q | grep "zsh"`
 
-    if [[ $ZSHCHECK == *"zsh"* ]]; then
+    if [[ $ZSHCHECK == *"zsh"* ]]; then #checks if anything has zsh in it
         return 0
     else
         return 1
@@ -114,23 +120,30 @@ zsh_check_arch () {
 zsh_check_debain () {
     ZSHCHECK=`apt list --installed | grep "zsh"`
 
-    if [[ $ZSHCHECK == *"zsh"* ]]; then
+    if [[ $ZSHCHECK == *"zsh"* ]]; then #checks if anything has zsh in it
         return 0
     else
         return 1
     fi
 }
 #############################################
-#Checks for ZSH package in arch
+#Checks for ZSH package in arch https://wiki.archlinux.org/title/Zsh
 zsh_install_arch() {
-    echo "ZSH is not installed... installing"
+    echo "--------------------------------------"
+    echo "| ZSH is not installed... installing |"
+    echo "--------------------------------------"
     sudo pacman -S zsh -y
+    wait
 }
 #############################################
-#Installs ZSH package in debian
+#Installs ZSH package in debian https://wiki.debian.org/Zsh
 zsh_install_debian() {
-    echo "ZSH is not installed... installing"
+    echo "--------------------------------------"
+    echo "| ZSH is not installed... installing |"
+    echo "--------------------------------------"
     sudo apt install zsh -y
+    wait
+    clear
 }
 #############################################
 #Checks for oh_my_zsh
@@ -142,7 +155,7 @@ oh_my_zsh_check () {
     fi
 }
 #############################################
-#Installs oh_my_zsh
+#Installs oh_my_zsh https://github.com/ohmyzsh/ohmyzsh
 oh_my_zsh_install () {
     git_check
     check=$?
@@ -170,7 +183,7 @@ pl10k_check () {
     fi
 }
 #############################################
-#Powerlevel10k Install
+#Powerlevel10k Install see https://github.com/romkatv/powerlevel10k#meslo-nerd-font-patched-for-powerlevel10k
 pl10k_install () {
     git_check
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/git/powerlevel10k
@@ -180,20 +193,28 @@ pl10k_install () {
 #Asking if want mikes files
 mikes_file_prompt () {
 while true;do
-    read -p "Would you like to install my config files for oh-my-zsh and Powerlevel10k? (Y/N): " mchoice
+    echo "-------------------------------------------------------------------------------------"
+    echo "| Would you like to install my config files for oh-my-zsh and Powerlevel10k? (Y/N): |"
+    echo "-------------------------------------------------------------------------------------"
+    read -p "> " mchoice
     case $mchoice in
         [yY]*)
-            echo "Installing"
+            echo "--------------"
+            echo "| Installing |"
+            echo "--------------"
             mikes_files_install
             break
             ;;
         [nN]*)
-            echo "Ok, closing the program"
+            echo "---------------------------"
+            echo "| Ok, closing the program |"
+            echo "---------------------------"
             closing
             break
             ;;
         *)
-            echo "Invalid Input" >&2
+            echo "-----------------"
+            echo "| Invalid Input |" >&2
     esac
 done
 }
@@ -209,84 +230,142 @@ mikes_file_check () {
 #############################################
 #Installing Mikes fies
 mikes_files_install () {
+    clear
+    echo $waterMarkOS
     git_check
     mikes_file_check
     check=$?
-    echo $check
     if [[ $check == 0 ]];then
+        echo "--------------------------"
+        echo "| Entering ZSH folder... |"
         cd ~/git/zsh-config
-        #cp .p10k.zsh ~/.pk10.zsh
-        cp .p10k.zsh ~/test/.p10k.zsh
+        echo "--------------------------"
+        echo "| Copying p10k Config... |"
+        echo "--------------------------"
+        cp .p10k.zsh ~/.p10k.zsh
+        #Used for testing purposes
+        #cp .p10k.zsh ~/test/.p10k.zsh
         wait
-        pwd
-        #cp .zshrc ~/.zshrc
-        cp .zshrc ~/test/.zshrc
+        echo "| Copying .zshrc... |"
+        cp .zshrc ~/.zshrc
+        #Used for testing purposes
+        #cp .zshrc ~/test/.zshrc
         wait
+        echo "-----------------------------------"
+        echo "| Extracting .oh-my-zsh.tar.xz... |"
+        echo "-----------------------------------"
         tar -xf .oh-my-zsh.tar.xz
         wait
-        #cp -r .oh-my-zsh ~/.oh-my-zsh
-        cp -r .oh-my-zsh ~/test/.oh-my-zsh
-        # wait
-        #rmdir --ignore-fail-on-non-empty ~/.oh-my-zsh/plugins/zsh-autocomplete/
-        # rmdir --ignore-fail-on-non-empty ~/test/.oh-my-zsh/plugins/zsh-autocomplete/
+        echo "| Copying .oh-my-zsh.tar.xz... |"
+        cp -r .oh-my-zsh ~/.oh-my-zsh
+        #Used for testing purposes
+        #cp -r .oh-my-zsh ~/test/.oh-my-zsh
         wait
-        #git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git ~/.oh-my-zsh/plugins
-        git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git ~/test/.oh-my-zsh/plugins/zsh-autocomplete
+        echo "-------------------------------"
+        echo "| Cloning zsh autocomplete... |"
+        echo "-------------------------------"
+        echo
+        git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git ~/.oh-my-zsh/plugins
+        #Used for testing purposes
+        #git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git ~/test/.oh-my-zsh/plugins/zsh-autocomplete
     else
+        echo "---------------------------"
+        echo "| Cloning config files... |"
+        echo "---------------------------"
+        echo
         git clone git@github.com:mem101296/zsh-config.git ~/git/zsh-config
         wait
+        echo "--------------------------"
+        echo "| Entering ZSH folder... |"
         cd ~/git/zsh-config
-        #cp .p10k.zsh ~/.p10k.zsh
-        cp .p10k.zsh ~/test/.p10k.zsh
+        echo "--------------------------"
+        echo "| Copying p10k Config... |"
+        echo "--------------------------"
+        cp .p10k.zsh ~/.p10k.zsh
+        #Used for testing purposes
+        #cp .p10k.zsh ~/test/.p10k.zsh
         wait
-        pwd
-        #cp .zshrc ~/.zshrc
-        cp .zshrc ~/test/.zshrc
+        echo "| Copying .zshrc... |"
+        cp .zshrc ~/.zshrc
+        #Used for testing purposes
+        #cp .zshrc ~/test/.zshrc
         wait
+        echo "-----------------------------------"
+        echo "| Extracting .oh-my-zsh.tar.xz... |"
+        echo "-----------------------------------"
         tar -xf .oh-my-zsh.tar.xz
         wait
-        #cp -r .oh-my-zsh ~/.oh-my-zsh
-        cp -r .oh-my-zsh ~/test/.oh-my-zsh
-        # wait
-        # #rmdir --ignore-fail-on-non-empty ~/.oh-my-zsh/plugins/zsh-autocomplete/
-        # rmdir --ignore-fail-on-non-empty ~/test/.oh-my-zsh/plugins/zsh-autocomplete/
+        echo "| Copying .oh-my-zsh.tar.xz... |"
+        cp -r .oh-my-zsh ~/.oh-my-zsh
+        #Used for testing purposes
+        #cp -r .oh-my-zsh ~/test/.oh-my-zsh
         wait
-        #git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git ~/.oh-my-zsh/plugins
-        git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git ~/test/.oh-my-zsh/plugins/zsh-autocomplete
+        echo "-------------------------------"
+        echo "| Cloning zsh autocomplete... |"
+        echo "-------------------------------"
+        echo
+        git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git ~/.oh-my-zsh/plugins
+        #Used for testing purposes
+        #git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git ~/test/.oh-my-zsh/plugins/zsh-autocomplete
     fi
 }
 #############################################
 #Closing the program
 closing () {
-    echo "closing the program" 
     exit 1
 }
 #############################################
+
+
+
+#############################################
 #End of Functions
 #############################################
+
+
+
+#############################################
+#Outputs author and purpose
+echo "-----------------------------------------------------------------------------"
+echo "| Made by Michael Martin                                                    |"
+echo "| mike@pixelmail.io                                                         |"
+echo "| Made to assist employees as Void Industries get a ZSH shell setup quickly |"
+echo "-----------------------------------------------------------------------------"
+read -p "Press enter to continue"
+clear
+
 #grab OS type for the next step
-echo "Please choose which OS you have"
+echo "-----------------------------------"
+echo "| Please choose which OS you have |"
 while true;do
-    read -p "Type \"arch\" or \"debian\": " osType
+    echo "-----------------------------------"
+    echo "| Type \"Arch\" or \"Debian\":        |"
+    echo "-----------------------------------"
+    read -p "> " osType
     case $osType in
         "arch" | "Arch")
-            echo $osType
             break
             ;;
         "debian" | "Debian")
-            echo $osType
             break
             ;;
         *)
-            echo "Invalid Input" >&2
+            echo "-----------------------------------"
+            echo "| Invalid Input                   |" >&2
     esac
 done
+
+waterMarkOS=~"$osType"~
+
 #############################################
-#Checks for packages
+#Asks if user would like packages installde
+clear
 while true; do
-    echo "-----------------------------------------------------"
-    echo
-    read -p "Do you need zsh, oh-my-zsh, and powerlevel10k them installed? (Y/N): " confirm
+    echo $waterMarkOS
+    echo "------------------------------------------------------------------------"
+    echo "| Do you need zsh, oh-my-zsh, and powerlevel10k them installed? (Y/N): |"
+    echo "------------------------------------------------------------------------"
+    read -p "> " confirm
     case $confirm in
         [yY]*)
             break
@@ -295,21 +374,30 @@ while true; do
             break
             ;;
         *)
-            echo "Invalid Input" >&2
+            echo "------------------------------------------------------------------------"
+            echo "| Invalid Input                                                        |" >&2
     esac
 done
 #############################################
+#Should be considered the "main" function. Calls other functions
+clear
 echo
-echo "-----------------------------------------------------"
-
 if [[ $confirm == "n" || $confirm == "N" ]]; then
-    echo "Double checking that required programs are installed..."
-    echo
+    echo $waterMarkOS
+    echo "-----------------------------------------------------------"
+    echo "| Double checking that required programs are installed... |"
+    echo "-----------------------------------------------------------"
+    sleep 1
+    clear
     os_check
     mikes_file_prompt
 else
-    echo "Checking for clean install locations"
-    echo
+    echo $waterMarkOS
+    echo "----------------------------------------"
+    echo "| Checking for clean install locations |"
+    echo "----------------------------------------"
+    sleep 1
+    clear
     os_check
     mikes_file_prompt
 fi
