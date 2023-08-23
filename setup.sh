@@ -215,24 +215,44 @@ mikes_files_install () {
     echo $check
     if [[ $check == 0 ]];then
         cd ~/git/zsh-config
-        cp .pk10k.zsh ~/.pk10.zsk
+        #cp .p10k.zsh ~/.pk10.zsh
+        cp .p10k.zsh ~/test/.p10k.zsh
         wait
-        cp .zshrc ~/.zshrc
+        pwd
+        #cp .zshrc ~/.zshrc
+        cp .zshrc ~/test/.zshrc
         wait
-        cp -r .oh-my-zsh ~/.oh-my-zsh
+        tar -xf .oh-my-zsh.tar.xz
         wait
-        git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git ~/.oh-my-zsh/plugins
+        #cp -r .oh-my-zsh ~/.oh-my-zsh
+        cp -r .oh-my-zsh ~/test/.oh-my-zsh
+        # wait
+        #rmdir --ignore-fail-on-non-empty ~/.oh-my-zsh/plugins/zsh-autocomplete/
+        # rmdir --ignore-fail-on-non-empty ~/test/.oh-my-zsh/plugins/zsh-autocomplete/
+        wait
+        #git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git ~/.oh-my-zsh/plugins
+        git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git ~/test/.oh-my-zsh/plugins/zsh-autocomplete
     else
         git clone git@github.com:mem101296/zsh-config.git ~/git/zsh-config
+        wait
         cd ~/git/zsh-config
-        cp .pk10k.zsh ~/.pk10.zsk
+        #cp .p10k.zsh ~/.p10k.zsh
+        cp .p10k.zsh ~/test/.p10k.zsh
         wait
-        cp .zshrc ~/.zshrc
+        pwd
+        #cp .zshrc ~/.zshrc
+        cp .zshrc ~/test/.zshrc
         wait
-        tar -xf .oh-my-zsh.tar.zx
-        cp -r .oh-my-zsh ~/.oh-my-zsh
+        tar -xf .oh-my-zsh.tar.xz
         wait
-        git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git ~/.oh-my-zsh/plugins
+        #cp -r .oh-my-zsh ~/.oh-my-zsh
+        cp -r .oh-my-zsh ~/test/.oh-my-zsh
+        # wait
+        # #rmdir --ignore-fail-on-non-empty ~/.oh-my-zsh/plugins/zsh-autocomplete/
+        # rmdir --ignore-fail-on-non-empty ~/test/.oh-my-zsh/plugins/zsh-autocomplete/
+        wait
+        #git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git ~/.oh-my-zsh/plugins
+        git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git ~/test/.oh-my-zsh/plugins/zsh-autocomplete
     fi
 }
 #############################################
@@ -291,4 +311,5 @@ else
     echo "Checking for clean install locations"
     echo
     os_check
+    mikes_file_prompt
 fi
