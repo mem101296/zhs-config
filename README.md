@@ -7,7 +7,7 @@ To install:
 git clone git@github.com:mem101296/zsh-config.git ~/git/zsh-config
 ```
 ```
-chmod + ~/git/zsh-config/setup.sh
+chmod +x ~/git/zsh-config/setup.sh
 ```
 ```
 ~/git/zsh-config/setup.sh
