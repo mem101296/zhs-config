@@ -179,6 +179,7 @@ pl10k_install () {
 #############################################
 #Asking if want mikes files
 mikes_file_prompt () {
+while true;do
     read -p "Would you like to install my config files for oh-my-zsh and Powerlevel10k? (Y/N): " mchoice
     case $mchoice in
         [yY]*)
